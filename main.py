@@ -13,6 +13,7 @@ def main():
     men.ex = exit_screen
     men.setup()
     kab.setup()
+    exit_screen.setup()
     window.show_view(men)
     arcade.run()
 if __name__ == "__main__":

@@ -1,26 +1,51 @@
 import arcade
+from arcade import Sound
 from arcade.gui import UITextureButton, UIManager, UIFlatButton
 from arcade.gui.widgets.layout import UIBoxLayout, UIAnchorLayout
 import time
+
+from pyglet.clock import Clock
+
+class Timer():
+    def __init__(self):
+        self.time = 0
+        self.started = False
+    def update(self, delta_time: float):
+        self.time += delta_time
+    def start(self):
+        self.started = True
+
 class Exit_Screen(arcade.View):
     def __init__(self):
         super().__init__()
         self.sp =arcade.SpriteList()
-        self.trigger = False
+        self.trigger = True
     def setup(self):
         self.background_color = arcade.color.BLACK
-    def stop(self):
-        self.trigger = True
+        self.timer = Timer()
+        self.sound = Sound('sounds/exit_sound.mp3', streaming=False)
+
+    def on_update(self, delta_time: float):
+        if self.timer.started:
+            self.timer.update(delta_time)
+        if 2<self.timer.time<3 and self.trigger:
+            self.sound.play()
+        if self.timer.time>5 and self.trigger:
+            self.sound.play()
+            self.trigger = False
+
     def on_draw(self):
         self.clear()
-        if self.trigger:
-            time.sleep(3)
-            txt = arcade.Text(text='Вы расстроили товарища Сталина', x=0, y=300, color=arcade.color.CRIMSON,
+
+        txt = arcade.Text(text='Вы расстроили товарища Сталина', x=0, y=300, color=arcade.color.CRIMSON,
                               font_size=40,
                               width=400)
-            txt.draw()
-            time.sleep(3)
+
+        if self.timer.time>6:
+
             arcade.exit()
+        elif self.timer.time>3:
+            txt.draw()
 
 
 
@@ -34,10 +59,18 @@ class Menu(arcade.View):
         self.manger.add(self.main_anchor)
         self.main_sprite_list = arcade.SpriteList()
         self.manger.enable()
+
+
     def setup(self):
         self.background_color = arcade.color.BLACK
         self.background_texture = arcade.load_texture("textures/menu_background.png")
         self.setup_widgets()
+        self.timer = Timer()
+        self.timer.start()
+    def on_update(self, delta_time: float):
+        if self.timer.started:
+            self.timer.update(delta_time)
+
 
     def setup_widgets(self):
         style = {
@@ -68,12 +101,13 @@ class Menu(arcade.View):
 
 
         start_button.on_click = lambda event: self.window.show_view(self.kab_view)
-        exit_button.on_click = lambda event: (self.window.show_view(self.ex), self.ex.stop())
+        exit_button.on_click = lambda event: (self.window.show_view(self.ex), self.ex.timer.start())
         self.main_layout.add(start_button)
         self.manger.add(exit_button)
 
     def on_draw(self):
         self.clear()
+
         arcade.draw_texture_rect(self.background_texture,
                                  arcade.rect.XYWH(self.width // 2, self.height // 2, self.width, self.height))
         self.manger.draw()
