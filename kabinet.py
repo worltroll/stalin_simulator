@@ -9,8 +9,7 @@ class Kabinet(arcade.View):
         self.background_color = arcade.color.RED
         self.background_texture = arcade.load_texture("textures/kabinet_background.png")
         self.clock.time = 1409.0
-    def prent(self):
-        print('g')
+
     def on_update(self, delta_time):
         if self.clock.started:
             self.clock.update(delta_time)
