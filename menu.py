@@ -10,11 +10,24 @@ class Timer():
     def __init__(self):
         self.time = 0
         self.started = False
+        self.days = 1
+
     def update(self, delta_time: float):
         self.time += delta_time
     def start(self):
         self.started = True
+    def real_time(self):
+        self.days = int(1 + self.time//1440)
+        if self.time >1440:
+            t_time = self.time%1440
+        else:
+            t_time = self.time
+        if len(str(int(t_time)%60))==1:
 
+            rt = str(int(t_time)//60) + ':' + '0' + str(int(t_time)%60)
+        else:
+            rt = str(int(t_time)//60) + ':'+ str(int(t_time)%60)
+        return rt
 class Exit_Screen(arcade.View):
     def __init__(self):
         super().__init__()
@@ -100,7 +113,7 @@ class Menu(arcade.View):
         exit_button = UIFlatButton(text="Выйти??",width=200, height=80, style=style, x=600, y=500)
 
 
-        start_button.on_click = lambda event: self.window.show_view(self.kab_view)
+        start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start())
         exit_button.on_click = lambda event: (self.window.show_view(self.ex), self.ex.timer.start())
         self.main_layout.add(start_button)
         self.manger.add(exit_button)
