@@ -10,6 +10,7 @@ def main():
     kab = Kabinet()
     men = Menu()
     men.kab_view = kab
+    kab.menu = men
     men.ex = exit_screen
     men.setup()
     kab.setup()

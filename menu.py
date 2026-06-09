@@ -16,6 +16,8 @@ class Timer():
         self.time += delta_time
     def start(self):
         self.started = True
+    def stop(self):
+        self.started = False
     def real_time(self):
         self.days = int(1 + self.time//1440)
         if self.time >1440:
@@ -86,6 +88,10 @@ class Menu(arcade.View):
 
 
     def setup_widgets(self):
+        button_texture1 = arcade.load_texture("textures/button1_default.png")
+        button_texture2 = arcade.load_texture("textures/button2_default.png")
+        button_texture_press1 = arcade.load_texture("textures/button1_press.png")
+        button_texture_press2 = arcade.load_texture("textures/button2_press.png")
         style = {
             'normal': UIFlatButton.UIStyle(
                 font_size= 20,
@@ -109,11 +115,28 @@ class Menu(arcade.View):
                 border= arcade.color.BLACK,
             )
         }
-        start_button = UIFlatButton(text="Начать",width=200, height=80, style=style)
-        exit_button = UIFlatButton(text="Выйти??",width=200, height=80, style=style, x=600, y=500)
+        style_texture = {
+            'normal': UITextureButton.UIStyle(
+                font_size=20,
+                font_color=arcade.color.GRAY,
+
+            ),
+            'hover': UITextureButton.UIStyle(
+                font_size=20,
+                font_color=arcade.color.BLACK,
+
+            ),
+            'press': UITextureButton.UIStyle(
+                font_size=20,
+                font_color=arcade.color.RED,
+
+            )
+        }
+        start_button = UITextureButton(text="Начать",width=200, height=80, style=style_texture, texture=button_texture1, texture_pressed=button_texture_press1)
+        exit_button = UITextureButton(text="Выйти??",width=100, height=80, style=style_texture, x=600, y=500, texture=button_texture2, texture_pressed=button_texture_press2)
 
 
-        start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start())
+        start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start(), self.manger.disable())
         exit_button.on_click = lambda event: (self.window.show_view(self.ex), self.ex.timer.start())
         self.main_layout.add(start_button)
         self.manger.add(exit_button)
