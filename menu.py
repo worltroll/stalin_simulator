@@ -2,9 +2,9 @@ import arcade
 from arcade import Sound
 from arcade.gui import UITextureButton, UIManager, UIFlatButton
 from arcade.gui.widgets.layout import UIBoxLayout, UIAnchorLayout
-import time
 
-from pyglet.clock import Clock
+
+
 
 class Timer():
     def __init__(self):
@@ -92,6 +92,9 @@ class Menu(arcade.View):
         button_texture2 = arcade.load_texture("textures/button2_default.png")
         button_texture_press1 = arcade.load_texture("textures/button1_press.png")
         button_texture_press2 = arcade.load_texture("textures/button2_press.png")
+        arcade.load_font("fonts/main_font.ttf")
+
+
         style = {
             'normal': UIFlatButton.UIStyle(
                 font_size= 20,
@@ -99,6 +102,7 @@ class Menu(arcade.View):
                 bg = arcade.color.GRAY,
                 border_width= 3,
                 border= arcade.color.BLACK,
+
             ),
             'hover': UIFlatButton.UIStyle(
                 font_size= 20,
@@ -119,17 +123,17 @@ class Menu(arcade.View):
             'normal': UITextureButton.UIStyle(
                 font_size=20,
                 font_color=arcade.color.GRAY,
-
+                font_name='USSR STENCIL'
             ),
             'hover': UITextureButton.UIStyle(
                 font_size=20,
                 font_color=arcade.color.BLACK,
-
+                font_name='USSR STENCIL'
             ),
             'press': UITextureButton.UIStyle(
                 font_size=20,
                 font_color=arcade.color.RED,
-
+                font_name='USSR STENCIL'
             )
         }
         start_button = UITextureButton(text="Начать",width=200, height=80, style=style_texture, texture=button_texture1, texture_pressed=button_texture_press1)
