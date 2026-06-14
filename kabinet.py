@@ -70,7 +70,7 @@ class Kabinet(arcade.View):
         self.manager = UIManager()
         self.central_layout = UIBoxLayout(x=200, y=50, space_between=20, vertical=False)
         self.manager.add(self.central_layout)
-        self.manager.enable()
+
         self.this_event = {}
         self.end_sound = arcade.Sound('sounds/end_sound.mp3', streaming=True)
     def setup(self):
@@ -79,7 +79,14 @@ class Kabinet(arcade.View):
         self.clock.time = 0.0
         self.setup_wigets()
         self.this_event = self.stalin.r_event()
+        self.emblem_paranoi = arcade.Sprite("textures/emblem_paranoi.png", center_x=55, center_y=470)
+        self.emblem_nkvd = arcade.Sprite("textures/emblem_nkvd.png", center_x=55, center_y=350)
+        self.emblem_person = arcade.Sprite("textures/emblem_person.png", center_x=55, center_y=230)
 
+        self.emblems = arcade.SpriteList()
+        self.emblems.append(self.emblem_paranoi)
+        self.emblems.append(self.emblem_nkvd)
+        self.emblems.append(self.emblem_person)
     def newEvent(self):
         for p, i in self.stalin.parameters.items():
             if i <= -100:
@@ -106,13 +113,14 @@ class Kabinet(arcade.View):
         self.end_sound.play()
     def yes(self):
         for object in self.this_event['Yes']:
-            self.stalin.parameters[object] += self.this_event['Yes'][object]
+           self.stalin.parameters[object] += self.this_event['Yes'][object]
         self.newEvent()
 
     def no(self):
         for object in self.this_event['No']:
             self.stalin.parameters[object] += self.this_event['No'][object]
         self.newEvent()
+
 
     def setup_wigets(self):
         arcade.load_font("fonts/main_font.ttf")
@@ -152,14 +160,7 @@ class Kabinet(arcade.View):
 
         self.manager.add(back_button)
 
-        self.emblem_paranoi = arcade.Sprite("textures/emblem_paranoi.png", center_x=55, center_y=470)
-        self.emblem_nkvd = arcade.Sprite("textures/emblem_nkvd.png", center_x=55, center_y=350)
-        self.emblem_person = arcade.Sprite("textures/emblem_person.png", center_x=55, center_y=230)
 
-        self.emblems = arcade.SpriteList()
-        self.emblems.append(self.emblem_paranoi)
-        self.emblems.append(self.emblem_nkvd)
-        self.emblems.append(self.emblem_person)
 
     def on_update(self, delta_time):
         if self.clock.started:

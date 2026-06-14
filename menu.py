@@ -4,6 +4,8 @@ from arcade.gui import UITextureButton, UIManager, UIFlatButton
 from arcade.gui.widgets.layout import UIBoxLayout, UIAnchorLayout
 
 
+
+
 class Timer():
     def __init__(self):
         self.time = 0
@@ -12,33 +14,27 @@ class Timer():
 
     def update(self, delta_time: float):
         self.time += delta_time
-
     def start(self):
         self.started = True
-
     def stop(self):
         self.started = False
-
     def real_time(self):
-        self.days = int(1 + self.time // 1440)
-        if self.time > 1440:
-            t_time = self.time % 1440
+        self.days = int(1 + self.time//1440)
+        if self.time >1440:
+            t_time = self.time%1440
         else:
             t_time = self.time
-        if len(str(int(t_time) % 60)) == 1:
+        if len(str(int(t_time)%60))==1:
 
-            rt = str(int(t_time) // 60) + ':' + '0' + str(int(t_time) % 60)
+            rt = str(int(t_time)//60) + ':' + '0' + str(int(t_time)%60)
         else:
-            rt = str(int(t_time) // 60) + ':' + str(int(t_time) % 60)
+            rt = str(int(t_time)//60) + ':'+ str(int(t_time)%60)
         return rt
-
-
 class Exit_Screen(arcade.View):
     def __init__(self):
         super().__init__()
-        self.sp = arcade.SpriteList()
+        self.sp =arcade.SpriteList()
         self.trigger = True
-
     def setup(self):
         self.background_color = arcade.color.BLACK
         self.timer = Timer()
@@ -47,9 +43,9 @@ class Exit_Screen(arcade.View):
     def on_update(self, delta_time: float):
         if self.timer.started:
             self.timer.update(delta_time)
-        if 2 < self.timer.time < 3 and self.trigger:
+        if 2<self.timer.time<3 and self.trigger:
             self.sound.play()
-        if self.timer.time > 5 and self.trigger:
+        if self.timer.time>5 and self.trigger:
             self.sound.play()
             self.trigger = False
 
@@ -57,14 +53,15 @@ class Exit_Screen(arcade.View):
         self.clear()
 
         txt = arcade.Text(text='Вы расстроили товарища Сталина', x=0, y=300, color=arcade.color.CRIMSON,
-                          font_size=40,
-                          width=400)
+                              font_size=40,
+                              width=400)
 
-        if self.timer.time > 6:
+        if self.timer.time>6:
 
             arcade.exit()
-        elif self.timer.time > 3:
+        elif self.timer.time>3:
             txt.draw()
+
 
 
 class Menu(arcade.View):
@@ -78,16 +75,17 @@ class Menu(arcade.View):
         self.main_sprite_list = arcade.SpriteList()
         self.manger.enable()
 
+
     def setup(self):
         self.background_color = arcade.color.BLACK
         self.background_texture = arcade.load_texture("textures/menu_background.png")
         self.setup_widgets()
         self.timer = Timer()
         self.timer.start()
-
     def on_update(self, delta_time: float):
         if self.timer.started:
             self.timer.update(delta_time)
+
 
     def setup_widgets(self):
         button_texture1 = arcade.load_texture("textures/button1_default.png")
@@ -96,28 +94,29 @@ class Menu(arcade.View):
         button_texture_press2 = arcade.load_texture("textures/button2_press.png")
         arcade.load_font("fonts/main_font.ttf")
 
+
         style = {
             'normal': UIFlatButton.UIStyle(
-                font_size=20,
-                font_color=arcade.color.BLACK,
-                bg=arcade.color.GRAY,
-                border_width=3,
-                border=arcade.color.BLACK,
+                font_size= 20,
+                font_color= arcade.color.BLACK,
+                bg = arcade.color.GRAY,
+                border_width= 3,
+                border= arcade.color.BLACK,
 
             ),
             'hover': UIFlatButton.UIStyle(
-                font_size=20,
-                font_color=arcade.color.RED,
-                bg=arcade.color.GRAY,
-                border_width=3,
-                border=arcade.color.BLACK,
+                font_size= 20,
+                font_color= arcade.color.RED,
+                bg = arcade.color.GRAY,
+                border_width= 3,
+                border= arcade.color.BLACK,
             ),
             'press': UIFlatButton.UIStyle(
-                font_size=20,
-                font_color=arcade.color.BLACK,
-                bg=arcade.color.CRIMSON_GLORY,
-                border_width=3,
-                border=arcade.color.BLACK,
+                font_size= 20,
+                font_color= arcade.color.BLACK,
+                bg = arcade.color.CRIMSON_GLORY,
+                border_width= 3,
+                border= arcade.color.BLACK,
             )
         }
         style_texture = {
@@ -137,13 +136,11 @@ class Menu(arcade.View):
                 font_name='USSR STENCIL'
             )
         }
-        start_button = UITextureButton(text="Начать", width=200, height=80, style=style_texture,
-                                       texture=button_texture1, texture_pressed=button_texture_press1)
-        exit_button = UITextureButton(width=100, height=100, style=style_texture, x=650, y=450, texture=button_texture2,
-                                      texture_pressed=button_texture_press2)
+        start_button = UITextureButton(text="Начать",width=200, height=80, style=style_texture, texture=button_texture1, texture_pressed=button_texture_press1)
+        exit_button = UITextureButton(width=100, height=100, style=style_texture, x=650, y=450, texture=button_texture2, texture_pressed=button_texture_press2)
 
-        start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start(),
-                                               self.manger.disable())
+
+        start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start(), self.manger.disable(), self.kab_view.manager.enable())
         exit_button.on_click = lambda event: (self.window.show_view(self.ex), self.ex.timer.start())
         self.main_layout.add(start_button)
         self.manger.add(exit_button)
