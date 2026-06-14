@@ -9,7 +9,8 @@ class Lose_view(arcade.View):
     def __init__(self):
         super().__init__()
         self.manager = UIManager()
-
+        self.time = ''
+        self.days = 0
         self.event = {}
     def setup(self):
         self.background_color = arcade.color.RED
@@ -51,6 +52,8 @@ class Lose_view(arcade.View):
         title = arcade.Text(self.event['title'], x=300, y=500, font_size=40, font_name='USSR STENCIL',color=arcade.color.BLACK)
         text = arcade.Text(self.event['text'], x=200, y=400, font_size=20, font_name='USSR STENCIL',
                             color=arcade.color.WHITE, width=400, multiline=True)
+        t = arcade.Text(f"Вы продержались {self.days} дней и {self.time} часов ", x = 50, y=200, font_size=30, font_name='USSR STENCIL', color=arcade.color.BLACK)
+        t.draw()
         title.draw()
         text.draw()
         self.manager.draw()
@@ -93,6 +96,8 @@ class Kabinet(arcade.View):
         self.clock.stop()
         self.window.show_view(self.lose_view)
         self.lose_view.event = text
+        self.lose_view.time = self.clock.real_time()
+        self.lose_view.days = self.clock.days
         self.end_sound.play()
     def yes(self):
         for object in self.this_event['Yes']:
