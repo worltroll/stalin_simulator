@@ -137,7 +137,7 @@ class Menu(arcade.View):
             )
         }
         start_button = UITextureButton(text="Начать",width=200, height=80, style=style_texture, texture=button_texture1, texture_pressed=button_texture_press1)
-        exit_button = UITextureButton(text="Выйти??",width=100, height=80, style=style_texture, x=600, y=500, texture=button_texture2, texture_pressed=button_texture_press2)
+        exit_button = UITextureButton(width=100, height=100, style=style_texture, x=650, y=450, texture=button_texture2, texture_pressed=button_texture_press2)
 
 
         start_button.on_click = lambda event: (self.window.show_view(self.kab_view), self.kab_view.clock.start(), self.manger.disable())
