@@ -121,3 +121,15 @@ class Kabinet(arcade.View):
         self.manager.draw()
 
         self.emblems.draw()
+        paranoi_text = arcade.Text(str(self.stalin.parameters["paranoia"]), x=30, y=400, font_size=30,
+                          font_name='USSR STENCIL', color=arcade.color.WHITE)
+        paranoi_text.draw()
+
+        nkvd_text = arcade.Text(str(self.stalin.parameters["nkvd"]), x=30, y=280, font_size=30,
+                          font_name='USSR STENCIL', color=arcade.color.WHITE)
+        nkvd_text.draw()
+
+        person_text = arcade.Text(str(self.stalin.parameters["person"]), x=30, y=160, font_size=30,
+                                   font_name='USSR STENCIL', color=arcade.color.WHITE)
+        person_text.draw()
+
