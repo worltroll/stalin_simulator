@@ -15,7 +15,7 @@ class Lose_view(arcade.View):
         self.background_color = arcade.color.RED
         self.background_texture = arcade.load_texture("textures/carpet.png")
         self.manager.enable()
-
+        self.setup_widgets()
     def setup_widgets(self):
         arcade.load_font("fonts/main_font.ttf")
         button_texture1 = arcade.load_texture("textures/button1_default.png")
@@ -38,7 +38,7 @@ class Lose_view(arcade.View):
             )
         }
 
-        end_button = arcade.UITextureButton(text="Выход", width=200,x=300, y=200, height=80, style=style_texture,
+        end_button = UITextureButton(text="Выход", width=200,x=100, y=200, height=80, style=style_texture,
                                     texture=button_texture1, texture_pressed=button_texture_press1 )
         end_button.on_click = lambda event: (self.window.show_view(self.menu), self.menu.manger.enable())
         self.manager.add(end_button)
