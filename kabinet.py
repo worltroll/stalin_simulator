@@ -5,6 +5,8 @@ import arcade
 from arcade.gui import UITextureButton, UIManager, UIFlatButton
 from arcade.gui.widgets.layout import UIBoxLayout, UIAnchorLayout
 from menu import Timer
+
+
 class Lose_view(arcade.View):
     def __init__(self):
         super().__init__()
@@ -12,6 +14,7 @@ class Lose_view(arcade.View):
         self.time = ''
         self.days = 0
         self.event = {}
+
     def setup(self):
         self.background_color = arcade.color.RED
         self.background_texture = arcade.load_texture("textures/carpet.png")
@@ -44,19 +47,21 @@ class Lose_view(arcade.View):
         end_button.on_click = lambda event: (self.window.show_view(self.menu), self.menu.manger.enable())
         self.manager.add(end_button)
 
-
     def on_draw(self):
         self.clear()
         arcade.draw_texture_rect(self.background_texture,
-                                     arcade.rect.XYWH(self.width // 2, self.height // 2, self.width, self.height))
-        title = arcade.Text(self.event['title'], x=300, y=500, font_size=40, font_name='USSR STENCIL',color=arcade.color.BLACK)
-        text = arcade.Text(self.event['text'], x=200, y=400, font_size=20, font_name='USSR STENCIL',
-                            color=arcade.color.WHITE, width=400, multiline=True)
+                                 arcade.rect.XYWH(self.width // 2, self.height // 2, self.width, self.height))
+        title = arcade.Text(self.event['title'], x=300, y=430, font_size=40, font_name='USSR STENCIL',
+                            color=arcade.color.WHITE)
+        text = arcade.Text(self.event['text'], x=200, y=350, font_size=20, font_name='USSR STENCIL',
+                           color=arcade.color.WHITE, width=400, multiline=True)
         t = arcade.Text(f"Вы продержались {self.days} дней и {self.time} часов ", x = 50, y=200, font_size=30, font_name='USSR STENCIL', color=arcade.color.BLACK)
         t.draw()
         title.draw()
         text.draw()
         self.manager.draw()
+
+
 class Kabinet(arcade.View):
     def __init__(self):
         super().__init__()
@@ -178,14 +183,13 @@ class Kabinet(arcade.View):
 
         self.emblems.draw()
         paranoi_text = arcade.Text(str(self.stalin.parameters["paranoia"]), x=30, y=400, font_size=30,
-                          font_name='USSR STENCIL', color=arcade.color.WHITE)
+                                   font_name='USSR STENCIL', color=arcade.color.WHITE)
         paranoi_text.draw()
 
         nkvd_text = arcade.Text(str(self.stalin.parameters["nkvd"]), x=30, y=280, font_size=30,
-                          font_name='USSR STENCIL', color=arcade.color.WHITE)
+                                font_name='USSR STENCIL', color=arcade.color.WHITE)
         nkvd_text.draw()
 
         person_text = arcade.Text(str(self.stalin.parameters["person"]), x=30, y=160, font_size=30,
-                                   font_name='USSR STENCIL', color=arcade.color.WHITE)
+                                  font_name='USSR STENCIL', color=arcade.color.WHITE)
         person_text.draw()
-
