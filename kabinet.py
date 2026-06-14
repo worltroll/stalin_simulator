@@ -38,7 +38,7 @@ class Lose_view(arcade.View):
             )
         }
 
-        end_button = UITextureButton(text="Выход", width=200,x=100, y=200, height=80, style=style_texture,
+        end_button = UITextureButton(text="Выход", width=200,x=300, y=100, height=80, style=style_texture,
                                     texture=button_texture1, texture_pressed=button_texture_press1 )
         end_button.on_click = lambda event: (self.window.show_view(self.menu), self.menu.manger.enable())
         self.manager.add(end_button)
@@ -64,7 +64,7 @@ class Kabinet(arcade.View):
         self.manager.add(self.central_layout)
         self.manager.enable()
         self.this_event = {}
-
+        self.end_sound = arcade.Sound('sounds/end_sound.mp3', streaming=True)
     def setup(self):
         self.background_color = arcade.color.RED
         self.background_texture = arcade.load_texture("textures/carpet.png")
@@ -93,6 +93,7 @@ class Kabinet(arcade.View):
         self.clock.stop()
         self.window.show_view(self.lose_view)
         self.lose_view.event = text
+        self.end_sound.play()
     def yes(self):
         for object in self.this_event['Yes']:
             self.stalin.parameters[object] += self.this_event['Yes'][object]
