@@ -1,3 +1,5 @@
+import json
+
 import arcade
 
 from arcade.gui import UITextureButton, UIManager, UIFlatButton
@@ -11,7 +13,7 @@ class Kabinet(arcade.View):
         self.main_sprite_list = arcade.SpriteList()
         self.clock = Timer()
         self.manager = UIManager()
-        self.central_layout = UIBoxLayout(x=200, y=100, space_between=20, vertical=False)
+        self.central_layout = UIBoxLayout(x=200, y=50, space_between=20, vertical=False)
         self.manager.add(self.central_layout)
         self.manager.enable()
         self.this_event = {}
@@ -23,15 +25,30 @@ class Kabinet(arcade.View):
         self.setup_wigets()
         self.this_event = self.stalin.r_event()
 
+    def newEvent(self):
+        for p, i in self.stalin.parameters.items():
+            if i <= -100:
+                with open('saves/final_events.json', 'r') as file:
+                    data = json.load(file)
+                    print(data[p]["low"])
+                break
+            elif i >= 100:
+                with open('saves/final_events.json', 'r') as file:
+                    data = json.load(file)
+                    print(data[p]["high"])
+                break
+
+        self.this_event = self.stalin.r_event()
+
     def yes(self):
         for object in self.this_event['Yes']:
             self.stalin.parameters[object] += self.this_event['Yes'][object]
-        self.this_event = self.stalin.r_event()
+        self.newEvent()
 
     def no(self):
         for object in self.this_event['No']:
             self.stalin.parameters[object] += self.this_event['No'][object]
-        self.this_event = self.stalin.r_event()
+        self.newEvent()
 
     def setup_wigets(self):
         arcade.load_font("fonts/main_font.ttf")
@@ -71,6 +88,10 @@ class Kabinet(arcade.View):
 
         self.manager.add(back_button)
 
+        self.emblem_paranoi = arcade.Sprite("textures/emblem_paranoi.png", center_x=0, center_y=0)
+        self.emblems = arcade.SpriteList()
+        self.emblems.append(self.emblem_paranoi)
+
     def on_update(self, delta_time):
         if self.clock.started:
             self.clock.update(delta_time)
@@ -83,10 +104,12 @@ class Kabinet(arcade.View):
         arcade.draw_texture_rect(self.background_texture,
                                  arcade.rect.XYWH(self.width // 2, self.height // 2, self.width, self.height))
         tme.draw()
-        event_title = arcade.Text(self.this_event['title'], x=180, y=370, font_size=40, color=arcade.color.WHITE,
+        event_title = arcade.Text(self.this_event['title'], x=200, y=370, font_size=25, color=arcade.color.WHITE,
                                   font_name='USSR STENCIL')
-        event_text = arcade.Text(self.this_event['text'], x=200, y=300, font_size=24, font_name='USSR STENCIL',
-                                 multiline=True, width=400)
+        event_text = arcade.Text(self.this_event['text'], x=150, y=300, font_size=25, font_name='USSR STENCIL',
+                                 multiline=True, width=570)
         event_title.draw()
         event_text.draw()
         self.manager.draw()
+
+        self.emblems.draw()
