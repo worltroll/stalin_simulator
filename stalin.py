@@ -1,17 +1,23 @@
 import json
 import os
+import random
 class Stalin():
-    def __init__(self, pararmetrs):
-        self.parametrs = pararmetrs
-        self.parametrs['paranoia'] = 30
-        self.parametrs['influense'] = 50
-        self.parametrs['nkvd'] = 50
+    def __init__(self):
+        self.parameters = {}
 
-        self.events_names = []
-        self.events = {}
-    def scan(self):
-        with open('events_main.json', 'r') as f:
+        self.events = []
+        self.scan_events()
+        self.scan_parameters()
+    def scan_events(self):
+        with open('saves/events_main.json', 'r') as f:
             self.events = json.load(f)
-            for i in self.events:
-                self.events_names.append(i)
-            f.close()
+    def scan_parameters(self):
+        with open('saves/parameters.json', 'r') as p:
+            self.parameters = json.load(p)
+    def r_event(self):
+        event = self.events[random.randint(0,len(self.events)-1)]
+        return event
+    def save_parameters(self):
+        with open('saves/parameters.json', 'w') as f:
+            json.dump(self.parameters, f)
+

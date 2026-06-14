@@ -12,11 +12,21 @@ class Kabinet(arcade.View):
         self.central_layout = UIBoxLayout(x=200, y=100, space_between=20, vertical=False)
         self.manager.add(self.central_layout)
         self.manager.enable()
+        self.this_event = {}
     def setup(self):
         self.background_color = arcade.color.RED
         self.background_texture = arcade.load_texture("textures/kabinet_background.png")
         self.clock.time = 1409.0
         self.setup_wigets()
+        self.this_event = self.stalin.r_event()
+    def yes(self):
+        for object in self.this_event['Yes']:
+            self.stalin.parameters[object] += self.this_event['Yes'][object]
+        self.this_event = self.stalin.r_event()
+    def no(self):
+        for object in self.this_event['No']:
+            self.stalin.parameters[object] += self.this_event['No'][object]
+        self.this_event = self.stalin.r_event()
     def setup_wigets(self):
         arcade.load_font("fonts/main_font.ttf")
         button_texture1 = arcade.load_texture("textures/button1_default.png")
@@ -45,9 +55,12 @@ class Kabinet(arcade.View):
         button_da = UITextureButton(text = "Согласится", width=200, height=80, style=style_texture, texture=button_texture1, texture_pressed=button_texture_press1)
         button_net = UITextureButton(text="Отказаться", width=200, height=80, style=style_texture,
                                     texture=button_texture1, texture_pressed=button_texture_press1)
+        button_da.on_click = lambda event: self.yes()
+        button_net.on_click = lambda event: self.no()
         self.central_layout.add(button_da)
         self.central_layout.add(button_net)
-        back_button.on_click = lambda event: (self.window.show_view(self.menu), self.clock.stop(), self.menu.manger.enable())
+        back_button.on_click = lambda event: (self.window.show_view(self.menu), self.clock.stop(), self.menu.manger.enable(), self.stalin.save_parameters())
+
         self.manager.add(back_button)
     def on_update(self, delta_time):
         if self.clock.started:
@@ -61,4 +74,8 @@ class Kabinet(arcade.View):
                                  arcade.rect.XYWH(self.width // 2, self.height // 2, self.width, self.height))
         tme.draw()
         day.draw()
+        event_title = arcade.Text(self.this_event['title'], x=250, y = 450, font_size=40, color=arcade.color.BLACK, font_name='USSR STENCIL')
+        event_text = arcade.Text(self.this_event['text'], x = 200, y = 350, font_size=24, font_name='USSR STENCIL', multiline=True, width=400)
+        event_title.draw()
+        event_text.draw()
         self.manager.draw()

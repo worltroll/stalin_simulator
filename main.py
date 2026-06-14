@@ -1,5 +1,6 @@
 import arcade
 from kabinet import Kabinet
+from stalin import Stalin
 from menu import Menu, Exit_Screen
 class Window(arcade.Window):
     def __init__(self, width, height, title):
@@ -11,6 +12,7 @@ def main():
     men = Menu()
     men.kab_view = kab
     kab.menu = men
+    kab.stalin = Stalin()
     men.ex = exit_screen
     men.setup()
     kab.setup()
