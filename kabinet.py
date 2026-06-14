@@ -30,15 +30,18 @@ class Kabinet(arcade.View):
             if i <= -100:
                 with open('saves/final_events.json', 'r') as file:
                     data = json.load(file)
-                    print(data[p]["low"])
+                    self.end_game(data[p]["low"])
                 break
             elif i >= 100:
                 with open('saves/final_events.json', 'r') as file:
                     data = json.load(file)
-                    print(data[p]["high"])
+                    self.end_game(data[p]["high"])
                 break
 
         self.this_event = self.stalin.r_event()
+
+    def end_game(self, text):
+        pass
 
     def yes(self):
         for object in self.this_event['Yes']:
@@ -88,9 +91,14 @@ class Kabinet(arcade.View):
 
         self.manager.add(back_button)
 
-        self.emblem_paranoi = arcade.Sprite("textures/emblem_paranoi.png", center_x=0, center_y=0)
+        self.emblem_paranoi = arcade.Sprite("textures/emblem_paranoi.png", center_x=55, center_y=470)
+        self.emblem_nkvd = arcade.Sprite("textures/emblem_nkvd.png", center_x=55, center_y=350)
+        self.emblem_person = arcade.Sprite("textures/emblem_person.png", center_x=55, center_y=230)
+
         self.emblems = arcade.SpriteList()
         self.emblems.append(self.emblem_paranoi)
+        self.emblems.append(self.emblem_nkvd)
+        self.emblems.append(self.emblem_person)
 
     def on_update(self, delta_time):
         if self.clock.started:
