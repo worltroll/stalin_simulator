@@ -26,3 +26,5 @@ class Stalin():
     def save_parameters(self):
         with open('saves/parameters.json', 'w') as f:
             json.dump(self.parameters, f)
+    def sbros(self):
+        self.parameters = {'paranoia':0, 'person':0, 'nkvd':0}

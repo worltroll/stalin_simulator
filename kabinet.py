@@ -111,6 +111,8 @@ class Kabinet(arcade.View):
         self.lose_view.time = self.clock.real_time()
         self.lose_view.days = self.clock.days
         self.end_sound.play()
+        self.stalin.sbros()
+        self.stalin.save_parameters()
     def yes(self):
         for object in self.this_event['Yes']:
            self.stalin.parameters[object] += self.this_event['Yes'][object]
