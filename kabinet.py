@@ -113,6 +113,7 @@ class Kabinet(arcade.View):
         self.end_sound.play()
         self.stalin.sbros()
         self.stalin.save_parameters()
+        self.clock.time = 0
     def yes(self):
         for object in self.this_event['Yes']:
            self.stalin.parameters[object] += self.this_event['Yes'][object]
